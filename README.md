@@ -13,18 +13,26 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 
 ``` acg_ablations_0.2.csv```: Contains the results of the ablation study for Adaptive Gradient Clipping. 
 
-```bn_dropout_batch_size_64.csv```: Contains the effects of varying the number of batchnorm and dropout layers (and dropout probability) on the accuracy, training time and time to 87% accuracy on a Resnet50 model with a batch size of 64.
+``` acg.csv```: Contains the performance of our resnet50 model using Adaptive Gradient Clipping, with a dropout probability of 0.2.
+
+```bn_dropout_batch_size_64.csv```: Contains the effects of varying the number of batchnorm and dropout layers (and dropout probability) on the accuracy, training time and time to 87% accuracy on a Resnet50 model with a batch size of 64 for 200 epochs.
+
+```bn_dropout_batch_size_256.csv```: Contains the effects of varying the number of batchnorm and dropout layers (and dropout probability) on the accuracy, training time and time to 87% accuracy on a Resnet50 model with a batch size of 256, for 100 epochs.
 
 ## Code Files
 ```Batchnorm_0.ipynb```: Contains the codes (and results) for models with no batchnorm layers, a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
 
 ```Batchnorm_3.ipynb```: Contains the codes (and results) for models with 3 batchnorm layers (normalization in all layers), a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
 
-```Batchnorm_dropout_analysis.ipynb```: Analyzing the effects of Dropout and Batchnormalization.
+```Batchsize256.ipynb```: Contains the codes (and results) for models with 2 and 3 batchnorm layers (normalization in all layers), a batch size of 256, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_256.csv```.
 
 ```ACG_ablations.ipynb```: Code for the ablation study for clip values and batch sizes for the Adaptive Gradient Clipping model. Here, we analyze the performance gained after training a single epoch of our self-implemented ResNet50 model.
 The metrics are collected for an entirely normalization free model (i.e., no batch normalization layers). We set the dropout ptobability to 0.2 (the best performing probability for BN=0). We study the effects that different clip-values and batch sizes have on models with different dropout layers.
 The results are stored in ```data/acg_ablations_0.2.csv```.
+
+```Batchnorm_dropout_analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization.
+
+
 
 
 ## Summary of Results
@@ -40,3 +48,17 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 2. Batch Normalization: It seems to be better to keep 1 or 2 batchnorm layers in the Resnet50 model. 1 Batchnorm layer consistently provides the smallest training time,  and using 2 batchnorm layers give the shortest time to achieve an 87% accuracy. Here as well, it seems like keeping a dropout probability of 0.2 gives the best result, giving very little differences in accuracies between either 1 or 2 dropout layers.
 
 Thus, the best combination for a batch size of 64 is seen by using 2 batch norm layers, 3 dropout layers of probability 0.2.
+
+### Effect of Batch Size
+1. We find that the training time decreases when we increase the batch size to 256, and we obtain comparable accuracies to when we use batch size 64 in half the number of epochs.
+
+2. The trends displayed by varying dropout layers and batch normalization layers are pretty much the same, except that here we see that using 2 dropout layers gives slightly better performance.
+
+Thus, the best combination for a batch size of 256 is seen by using 2 batch norm layers, 2 dropout layers of probability 0.2.
+
+### Adaptive Gradient Clipping Performance
+1. The performance of AGC is underwhelming. We get a lower accuracy and higher training time as compared to when we use batch normalization.
+
+2. It should be noted that using AGC gives comparable performance as when there is no batch normalization.
+
+This study conlcudes that AGC may not be a potent replacement for batch normalization in the application of image classification.
