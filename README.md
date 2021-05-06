@@ -32,6 +32,15 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 
 ```Batchnorm_dropout_analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization.
 
+`AGC resnet50.ipynb`: Contains resnet training runs with parameters found in `ACG_ablations.ipynb` and batch_norm=2, dropout=[0,1,2,3], dropout_prob=0.2, batch_size=256.
+
+`BN2_convergence.ipynb`: Model training till convergence with parameters batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256
+
+`Batchnorm_2.ipynb`: Code for experiments run with parameters batch_norm=2, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=64.
+
+`Batchnorm_1.ipynb`: Code for experiments run with parameters batch_norm=1, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=[64, 256].
+
+`probabilities combo.ipynb`: Code containing experiments with different dropour probabilities in different layers.
 
 
 
