@@ -22,6 +22,10 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 ## Code Files
 ```Batchnorm_0.ipynb```: Contains the codes (and results) for models with no batchnorm layers, a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
 
+`Batchnorm_1.ipynb`: Code for experiments run with parameters batch_norm=1, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=[64, 256]. The results are a part of ```bn_dropout_batch_size_64.csv``` and ```bn_dropout_batch_size_256.csv```.
+
+`Batchnorm_2.ipynb`: Code for experiments run with parameters batch_norm=2, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=64. The results are a part of ```bn_dropout_batch_size_64.csv```.
+
 ```Batchnorm_3.ipynb```: Contains the codes (and results) for models with 3 batchnorm layers (normalization in all layers), a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
 
 ```Batchsize256.ipynb```: Contains the codes (and results) for models with 2 and 3 batchnorm layers (normalization in all layers), a batch size of 256, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_256.csv```.
@@ -30,18 +34,15 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 The metrics are collected for an entirely normalization free model (i.e., no batch normalization layers). We set the dropout ptobability to 0.2 (the best performing probability for BN=0). We study the effects that different clip-values and batch sizes have on models with different dropout layers.
 The results are stored in ```data/acg_ablations_0.2.csv```.
 
-```Batchnorm_dropout_analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization.
-
 `AGC resnet50.ipynb`: Contains resnet training runs with parameters found in `ACG_ablations.ipynb` and batch_norm=2, dropout=[0,1,2,3], dropout_prob=0.2, batch_size=256.
 
-`BN2_convergence.ipynb`: Model training till convergence with parameters batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256
+`probabilities_combo.ipynb`: Code containing experiments with different dropour probabilities in different layers.
 
-`Batchnorm_2.ipynb`: Code for experiments run with parameters batch_norm=2, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=64.
+```Batchnorm_dropout_analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization.
 
-`Batchnorm_1.ipynb`: Code for experiments run with parameters batch_norm=1, dropout=[0,1,2,3], dropout_prob=[0.2,0.5,0.8], batch_size=[64, 256].
+`BN2_convergence.ipynb`: Model training till convergence with parameters batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256.
 
-`probabilities combo.ipynb`: Code containing experiments with different dropour probabilities in different layers.
-
+`FinalResnet_dataaug.ipynb`: Model training till convergence using data augmentation. Trained two different models, one with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256. This model achived a test accuracy of 83%. The second used different probabilities in each of the dropout layer, as found by the best combination in `probabilities_combo.ipynb`. Here, used batch_norm=2, dropout=3, dropout_prob=[0.1,0.2,0.3], batch_size=256. This model achieved a test accuracy of 85%.
 
 
 ## Summary of Results
@@ -71,3 +72,8 @@ Thus, the best combination for a batch size of 256 is seen by using 2 batch norm
 2. It should be noted that using AGC gives comparable performance as when there is no batch normalization.
 
 This study conlcudes that AGC may not be a potent replacement for batch normalization in the application of image classification.
+
+### Data Augmentation
+1. Our final resnet50 model with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256 gave us a 77% accuracy (much better than the 71% accuracy we achieved wothout using any regularization techniques).
+
+2. To improve the accuracy, we used data augmentation techniques and brought up the accuracy to 83% with the above combination of parameters. Using different dropout probabilities in each layer resulted in a slightly better performance of about 85%.
