@@ -19,6 +19,13 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 
 ```bn_dropout_batch_size_256.csv```: Contains the effects of varying the number of batchnorm and dropout layers (and dropout probability) on the accuracy, training time and time to 87% accuracy on a Resnet50 model with a batch size of 256, for 100 epochs.
 
+```final_models.csv```: Contains the training accuracy, testing accuracy, and training time for the five models that are run to convergence. The five models are as follows:
+1. Baseline: This model contains noregularization techniques, and is our baseline.
+2. BatchNorm_Symmetric_Dropout: This model contains 2 batchnorm layers and 2 dropout layers, with a symmetric dropout probability of 0.2 across all layers.
+3. BatchNorm_Symmetric_Dropout_DataAugmentation: This model contains 2 batchnorm layers and 2 dropout layers, with a symmetric dropout probability of 0.2 across all layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
+4. BatchNorm_Asymmetric_Dropout_DataAugmentation: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
+5. BatchNorm_Asymmetric_Dropout_Cutout: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization.
+
 ## Code Files
 ```Batchnorm_0.ipynb```: Contains the codes (and results) for models with no batchnorm layers, a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
 
@@ -38,7 +45,9 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 
 `probabilities_combo.ipynb`: Code containing experiments with different dropour probabilities in different layers.
 
-```Batchnorm_dropout_analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization.
+```Analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization. Lastly, we analyze the performance of 5 different Resnet Models trained till convergence.
+
+`BaseResnet.ipynb`: Baseline model with no regularization techniques. Model trained till convergence with batch_size 256.
 
 `BN2_convergence.ipynb`: Model training till convergence with parameters batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256.
 
