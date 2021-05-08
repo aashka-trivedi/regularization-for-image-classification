@@ -8,6 +8,7 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 1. Measure the accuracy, training time, and time to reach 87% accuracy using different configurations of a self-implemented Resnet 50 model
 2. Determine which combination of BatchNorm layers, dropout layers and dropout probability gives us the best accuracy 
 3. Test the ability of Adaptive Gradient Clipping in replacing Batch Normalization
+4. test the use of data augmentation to improve performance
 
 ## Data Files
 
@@ -19,12 +20,15 @@ To empirically understand the effects of introducing Batch Normalization, Dropou
 
 ```bn_dropout_batch_size_256.csv```: Contains the effects of varying the number of batchnorm and dropout layers (and dropout probability) on the accuracy, training time and time to 87% accuracy on a Resnet50 model with a batch size of 256, for 100 epochs.
 
-```final_models.csv```: Contains the training accuracy, testing accuracy, and training time for the five models that are run to convergence. The five models are as follows:
+```final_models.csv```: Contains the training accuracy, testing accuracy, and training time for the eight models that are run to convergence. The eight models are as follows:
 1. Baseline: This model contains noregularization techniques, and is our baseline.
 2. BatchNorm_Symmetric_Dropout: This model contains 2 batchnorm layers and 2 dropout layers, with a symmetric dropout probability of 0.2 across all layers.
-3. BatchNorm_Symmetric_Dropout_DataAugmentation: This model contains 2 batchnorm layers and 2 dropout layers, with a symmetric dropout probability of 0.2 across all layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
-4. BatchNorm_Asymmetric_Dropout_DataAugmentation: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
-5. BatchNorm_Asymmetric_Dropout_Cutout: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization.
+3. Symmetric_DataAugmentation: This model contains 2 batchnorm layers and 2 dropout layers, with a symmetric dropout probability of 0.2 across all layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
+4. Asymmetric_DataAugmentation: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Image Transformations.
+5. Symmetric_Cutout_2: This model contains 2 batchnorm layers and 3 dropout layers, with a symmetric dropout probability of 0.2 across all layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization. Here, we add 2 cutout images per batch.
+6. Symmetric_Cutout_16: This model contains 2 batchnorm layers and 3 dropout layers, with a symmetric dropout probability of 0.2 across all layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization. Here, we add 16 cutout images per batch.
+7. Asymmetric_Cutout_2: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization. Here, we add 2 cutout images per batch.
+8. Asymmetric_Cutout_8: This model contains 2 batchnorm layers and 3 dropout layers, with a asymmetric dropout probability of 0.1, 0.2, and 0.3 across each respective layers. Additionally, it also uses data augmentation techniques in the form of Cutout Regularization. Here, we add 18 cutout images per batch.
 
 ## Code Files
 ```Batchnorm_0.ipynb```: Contains the codes (and results) for models with no batchnorm layers, a batch size of 64, and [0,1,2,3] dropout layers with dropout probabilities of [0.2, 0.5, 0.8]. The results are a part of ```bn_dropout_batch_size_64.csv```.
@@ -83,6 +87,8 @@ Thus, the best combination for a batch size of 256 is seen by using 2 batch norm
 This study conlcudes that AGC may not be a potent replacement for batch normalization in the application of image classification.
 
 ### Data Augmentation
-1. Our final resnet50 model with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256 gave us a 77% accuracy (much better than the 71% accuracy we achieved wothout using any regularization techniques).
+1. Our final resnet50 model with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256 gave us a 77% accuracy (much better than the 69% accuracy we achieved wothout using any regularization techniques).
 
-2. To improve the accuracy, we used data augmentation techniques and brought up the accuracy to 83% with the above combination of parameters. Using different dropout probabilities in each layer resulted in a slightly better performance of about 85%.
+2. To improve the accuracy, we used Image Transformation techniques and brought up the accuracy to 83% with the above combination of parameters. Using different dropout probabilities in each layer resulted in a slightly better performance of about 85%.
+
+3. We also tested the use of Cutout Regularization, but thus gave us a 78% accuracy, which is comparable to our model without data augmentation.
