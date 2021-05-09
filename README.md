@@ -2,13 +2,13 @@
 Repository for the class project for CSCI-GA 3033-091 Introduction to Deep Learning Systems taught by Prof. Parijat Dube in Spring 2021
 
 ## Objective
-To empirically understand the effects of introducing Batch Normalization, Dropout and Adaptive Gradient Clipping to a Resnet-50 model for an image classification task.
+To empirically understand the effects of introducing Batch Normalization, Dropout, Adaptive Gradient Clipping and Data Augmentation to a Resnet-50 model for an image classification task.
 
 ## Solution Approach
 1. Measure the accuracy, training time, and time to reach 87% accuracy using different configurations of a self-implemented Resnet 50 model
 2. Determine which combination of BatchNorm layers, dropout layers and dropout probability gives us the best accuracy 
 3. Test the ability of Adaptive Gradient Clipping in replacing Batch Normalization
-4. test the use of data augmentation to improve performance
+4. Test the use of data augmentation to improve performance
 
 ## Data Files
 
@@ -49,8 +49,6 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 
 `probabilities_combo.ipynb`: Code containing experiments with different dropour probabilities in different layers.
 
-```Analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization. Lastly, we analyze the performance of 5 different Resnet Models trained till convergence.
-
 `BaseResnet.ipynb`: Baseline model with no regularization techniques. Model trained till convergence with batch_size 256.
 
 `BN2_convergence.ipynb`: Model training till convergence with parameters batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256.
@@ -58,6 +56,8 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 `FinalResnet_dataaug.ipynb`: Model training till convergence using data augmentation. Trained two different models, one with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256. This model achived a test accuracy of 83%. The second used different probabilities in each of the dropout layer, as found by the best combination in `probabilities_combo.ipynb`. Here, used batch_norm=2, dropout=3, dropout_prob=[0.1,0.2,0.3], batch_size=256. This model achieved a test accuracy of 85%.
 
 `FinalResnet__dataaug_cutout.ipynb`: Experiments on number of cutout images per batch ([2,4,8,16]), and training till convergence models with added 2, 8 and 16 images per batch as those performed best on the trail run of 100 epochs. Here, used batch_norm=2, dropout=3, dropout_prob=[0.1,0.2,0.3], batch_size=256. Model achieved a test accuracy around 78%.
+
+```Analysis.ipynb```: The main analysis for this project- Analyzing the effects of Dropout and Batch Normalization. Here we study the effects of using different batch normalization layers, different number of dropout layers, different dropout probabilities on the accuracy, training time and TTA of the Resnet50 model. We also study whether using adaptive gradient clipping is effective in replacing Batch normalization. We analyze the performance of different data augmentation techniques to improve accuracy. Lastly, we analyze the performance of 6 different Resnet Models trained till convergence.
  
 
 ## Summary of Results
@@ -72,7 +72,7 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 
 2. Batch Normalization: It seems to be better to keep 1 or 2 batchnorm layers in the Resnet50 model. 1 Batchnorm layer consistently provides the smallest training time,  and using 2 batchnorm layers give the shortest time to achieve an 87% accuracy. Here as well, it seems like keeping a dropout probability of 0.2 gives the best result, giving very little differences in accuracies between either 1 or 2 dropout layers.
 
-Thus, the best combination for a batch size of 64 is seen by using 2 batch norm layers, 3 dropout layers of probability 0.2.
+Thus, the best combination is seen by using 2 batch norm layers, 3 dropout layers of probability 0.2.
 
 ### Effect of Batch Size
 1. We find that the training time decreases when we increase the batch size to 256, and we obtain comparable accuracies to when we use batch size 64 in half the number of epochs.
@@ -84,13 +84,15 @@ Thus, the best combination for a batch size of 256 is seen by using 2 batch norm
 ### Adaptive Gradient Clipping Performance
 1. The performance of AGC is underwhelming. We get a lower accuracy and higher training time as compared to when we use batch normalization.
 
-2. It should be noted that using AGC gives comparable performance as when there is no batch normalization.
+2. It should be noted that when we do not use any dropout, the performance of AGC is comparable to the cases when batch normalization is used. This suggests that maybe AGC should be used without dropout, and perhaps with other regularization techniques for better performance.
 
 This study conlcudes that AGC may not be a potent replacement for batch normalization in the application of image classification.
 
 ### Data Augmentation
 1. Our final resnet50 model with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256 gave us a 77% accuracy (much better than the 69% accuracy we achieved wothout using any regularization techniques).
 
-2. To improve the accuracy, we used Image Transformation techniques and brought up the accuracy to 83% with the above combination of parameters. Using different dropout probabilities in each layer resulted in a slightly better performance of about 85%.
+2. To improve the accuracy, we used Image Transformation techniques and brought up the accuracy to 83% with the above combination of parameters. Using different dropout probabilities in each layer resulted in a slightly better performance of about 85%. 
 
-3. We also tested the use of Cutout Regularization, but thus gave us a 78% accuracy, which is comparable to our model without data augmentation.
+3. We also tested the use of Cutout Regularization, but this gave us a 78% accuracy, which is comparable to our model without data augmentation.
+
+This study concludes that the best model for image classification on CIFAR10 is a Resnet-50 with 2 batch normalization layers and 3 dropout layers with assymmetric probabilities of 0.1, 0.2, 0.3. Moreover, data augmentations using image tranformations vastly improves the accuracy.
