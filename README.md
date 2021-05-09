@@ -57,6 +57,8 @@ The results are stored in ```data/acg_ablations_0.2.csv```.
 
 `FinalResnet_dataaug.ipynb`: Model training till convergence using data augmentation. Trained two different models, one with batch_norm=2, dropout=2, dropout_prob=0.2, batch_size=256. This model achived a test accuracy of 83%. The second used different probabilities in each of the dropout layer, as found by the best combination in `probabilities_combo.ipynb`. Here, used batch_norm=2, dropout=3, dropout_prob=[0.1,0.2,0.3], batch_size=256. This model achieved a test accuracy of 85%.
 
+`FinalResnet__dataaug_cutout.ipynb`: Experiments on number of cutout images per batch ([2,4,8,16]), and training till convergence models with added 2, 8 and 16 images per batch as those performed best on the trail run of 100 epochs. Here, used batch_norm=2, dropout=3, dropout_prob=[0.1,0.2,0.3], batch_size=256. Model achieved a test accuracy around 78%.
+
 
 ## Summary of Results
 
